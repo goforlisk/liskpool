@@ -1,0 +1,92 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: services.yml }
+    - { resource: "@LiskPoolBundle/Resources/config/services.yml" }
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: en
+
+framework:
+    #esi: ~
+    #translator: { fallbacks: ['%locale%'] }
+    secret: '%secret%'
+    router:
+        resource: '%kernel.project_dir%/app/config/routing.yml'
+        strict_requirements: ~
+    form: ~
+    csrf_protection: ~
+    validation: { enable_annotations: true }
+    #serializer: { enable_annotations: true }
+    templating:
+        engines: ['twig']
+    default_locale: '%locale%'
+    trusted_hosts: ~
+    session:
+        # https://symfony.com/doc/current/reference/configuration/framework.html#handler-id
+        handler_id: session.handler.native_file
+        save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
+    fragments: ~
+    http_method_override: true
+    assets: ~
+    php_errors:
+        log: true
+
+# Twig Configuration
+twig:
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+    cache: false
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver: pdo_mysql
+        host: '%database_host%'
+        port: '%database_port%'
+        dbname: '%database_name%'
+        user: '%database_user%'
+        password: '%database_password%'
+        charset: UTF8
+        # if using pdo_sqlite as your database driver:
+        #   1. add the path in parameters.yml
+        #     e.g. database_path: '%kernel.project_dir%/var/data/data.sqlite'
+        #   2. Uncomment database_path in parameters.yml.dist
+        #   3. Uncomment next line:
+        #path: '%database_path%'
+
+    orm:
+        auto_generate_proxy_classes: '%kernel.debug%'
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+        auto_mapping: true
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: '%mailer_transport%'
+    host: '%mailer_host%'
+    username: '%mailer_user%'
+    password: '%mailer_password%'
+    spool: { type: memory }
+
+
+lisk_php:
+    base_url: "https://main-01.goforli.sk" # Enter the Lisk Node URL here
+    network_hash: "ed14889723f24ecc54871d058d98ce91ff2f973192075c0155ba2b7b70ad2511" # This is the network hash of the mainnet
+    #network_hash: "da3ed6a45429278bac2666961289ca17ad86595d33b31037615d4b8e8f158bba" # This is the network hash of the testnet, uncomment this line and comment the mainnet line if you wish to use the testnet
+
+lisk_pool:
+    delegate_username: "goforlisk" # Enter your delegate username
+    memcached:
+      host: 'localhost' # Memcached (default) host
+      port: 11211 # Memcached (default) port
+    forging:
+      nodes:
+        - 'https://main-01.goforli.sk' # Enter your lisk nodes here, specify at least one node
+        - 'https://main-02.goforli.sk' # Adding a second node is optional, a daemon command will determine which node is best synced and use that one for forging/communication
+      secret: '' # Enter your secret here
+      second_secret: '' # Enter your second secret here, this field is only required if you are using a second secret
+      public_key: '4b9438abb739aa6fb17be78cee8e61ad86285ad661c5b7b8527f939fbea3d7ea' # Enter the public key of your delegate username here
+      fee_in_percentage: 10 # This is the fee that is kept by the pool in percent of the total rewards (forging rewards + transaction fee rewards), eg 10 means that you will keep 10% and share 90% with your voters proportionally to their voting weight
+      minimum_payout: 1 # The minimum balance required to pay a voter INCLUDING fee, so a payout of 1 means the user will receive a payment when the forging balance gets to 1 LSK, the user will then receive 0.9 LSK (1LSK - 0.1LSK fee)

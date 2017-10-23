@@ -1,0 +1,4 @@
+lisk_pool:
+    resource: "@LiskPoolBundle/Controller/"
+    type:     annotation
+    prefix:   /

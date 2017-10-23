@@ -1,0 +1,34 @@
+<div class="row">
+    <div class="col-sm-12 col-md-8 col-lg-6 mx-auto">
+        <div class="card text-center">
+            <h4 class="card-header">
+                {{ delegate.username }}
+            </h4>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <strong>Rank:</strong> {{ delegate.rank }}
+                </li>
+                <li class="list-group-item">
+                    <strong>Address:</strong> {{ delegate.address }}
+                </li>
+                <li class="list-group-item">
+                    <strong>Approval:</strong> {{ delegate.approval }}%
+                </li>
+                <li class="list-group-item">
+                    <strong>Votes:</strong> {{ delegate.vote }}
+                </li>
+                <li class="list-group-item">
+                    <strong>Productivity:</strong> {{ delegate.productivity }}%
+                </li>
+                <li class="list-group-item">
+                    <strong>Blocks missed | produced:</strong> {{ delegate.missedblocks }} | {{ delegate.producedblocks }}
+                </li>
+            </ul>
+            {% if app.request.get('_route') == 'statistics_detailed' %}
+                <a href="{{ path('statistics') }}" class="card-link my-2">View summarized stats</a>
+            {% else %}
+                <a href="{{ path('statistics_detailed') }}" class="card-link my-2">View detailed stats</a>
+            {% endif %}
+        </div>
+    </div>
+</div>

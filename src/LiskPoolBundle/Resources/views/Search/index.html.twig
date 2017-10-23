@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        {% if voter %}
+
+        {% else %}
+            <div class="col-xs-12 my-5">
+                <h1>Address not found</h1>
+                {% if did_vote_for_us %}
+                    {% if voter is null %}
+                        <p>
+                            Your vote is listed on our database, but you address has not yet received forging rewards from delegate <strong>goforlisk</strong>?
+                        </p>
+                    {% else %}
+                        <p>
+                            Your vote is listed in our database!<br />
+                            Your current pending forging reward is: <strong>{{ voter.balance }}</strong>.<br />
+                            Your total forging reward using our pool is: <strong>{{ voter.balanceTotal }}</strong>
+                        </p>
+                        <p>
+                            Thank you for your support!
+                        </p>
+                    {% endif %}
+                {% else %}
+                    <p>
+                        It appears that your address ({{ address }}) did not vote for delegate <strong>goforlisk</strong>. It may take a short while for your vote to appear here. Please check back later.
+                    </p>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

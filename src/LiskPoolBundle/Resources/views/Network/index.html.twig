@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container my-5">
+        <div class="row">
+            {% for node in nodeStats %}
+                <div class="col-sm-12 col-md-6">
+                    <div class="card text-center">
+                        <h4 class="card-header">
+                            {{ node.name }}
+                        </h4>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                Intel XEON E5-2667 v2
+                            </li>
+                            <li class="list-group-item">
+                                16GB RAM
+                            </li>
+                            <li class="list-group-item">
+                                100GB NVMe SSD
+                            </li>
+                            <li class="list-group-item">
+                                2x 1gbit/s uplink (NL)
+                            </li>
+                            {#<li class="list-group-item">
+                                <strong>Consensus:</strong> {{ node.consensus }}%
+                            </li>#}
+                            <li class="list-group-item">
+                                <strong>Node block height:</strong> {{ node.height }}
+                            </li>
+                            {#<li class="list-group-item">
+                                <strong>Blocks to sync:</strong> {{ node.blocks }}
+                            </li>#}
+                            <li class="list-group-item">
+                                <strong>Best node:</strong> {% if node.best_node == true %}Yes{% else %}No{% endif %}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="row">
+            <div class="col-xs-12 mx-3 my-3">
+                <p>
+                    Looking for Testnet node? See <a href="https://testpool.goforli.sk">our testnet page</a>.</p>
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
