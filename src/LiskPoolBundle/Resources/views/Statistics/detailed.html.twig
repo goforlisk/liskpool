@@ -2,7 +2,7 @@
 
 {% block body %}
     <div class="container my-5">
-        {% include "LiskPoolBundle::Statistics/includes/delegate.html.twig" %}
+        {% include "LiskPoolBundle::Statistics/includes/delegate.html.twig" with { 'voteCount': voters | length } %}
     </div>
 
     <div class="container my-5">

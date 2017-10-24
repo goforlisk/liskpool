@@ -18,6 +18,8 @@ class StatisticsController extends Controller
      */
     public function getStatisticsAction(Lisk $lisk, Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
+
         $delegateUsername = $this->getParameter("lisk_pool.delegate_username");
         $delegateInfo = $lisk->getDelegateByUsername($delegateUsername);
 
@@ -25,8 +27,14 @@ class StatisticsController extends Controller
             throw new NotFoundHttpException(var_export($delegateInfo, true));
         }
 
+        $qb = $em->createQueryBuilder();
+        $qb->select('count(voter.id)');
+        $qb->from('LiskPoolBundle:Voter', 'voter');
+        $voteCount = $qb->getQuery()->getSingleScalarResult();
+
         return $this->render('LiskPoolBundle:Statistics:index.html.twig', [
-            'delegate' => $delegateInfo["delegate"]
+            'delegate' => $delegateInfo["delegate"],
+            'voteCount' => $voteCount
         ]);
     }
 
