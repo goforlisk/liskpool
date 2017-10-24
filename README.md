@@ -103,8 +103,8 @@ Configuring a webserver can be done in many ways, the example below is a sample 
 
 ```
 server {
-    listen       80 http2;
-    listen       [::]:80 http2;
+    listen       80;
+    listen       [::]:80;
     server_name  pool.goforli.sk;
     root         /home/liskpool/liskpool/web;
 
