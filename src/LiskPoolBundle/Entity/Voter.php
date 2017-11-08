@@ -32,6 +32,15 @@ class Voter
     private $balanceTotal = 0;
 
     /**
+     * @ORM\OneToMany(targetEntity="Payout", mappedBy="voter")
+     */
+    private $payouts;
+
+    public function __construct() {
+        $this->payouts = new ArrayCollection();
+    }
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -93,5 +102,21 @@ class Voter
     public function setBalanceTotal($balanceTotal)
     {
         $this->balanceTotal = $balanceTotal;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPayouts()
+    {
+        return $this->payouts;
+    }
+
+    /**
+     * @param mixed $payouts
+     */
+    public function setPayouts($payouts)
+    {
+        $this->payouts = $payouts;
     }
 }

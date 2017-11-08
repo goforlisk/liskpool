@@ -18,7 +18,7 @@ class Payout
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="Voter")
+     * @ORM\ManyToOne(targetEntity="Voter", inversedBy="payouts")
      * @ORM\JoinColumn(name="voter_id", referencedColumnName="id")
      */
     private $voter;
