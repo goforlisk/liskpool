@@ -62,6 +62,8 @@ class ProcessPayoutDaemonCommand extends ContainerAwareCommand
                 }
             }
 
+            // Clear the Doctrine EM to prevent memory issues
+            $em->clear();
             $output->writeln("Processing done, sleeping for 3600 seconds...");
             sleep(3600);
         }
