@@ -47,6 +47,11 @@ class Delegate
     private $pools = [];
 
     /**
+     * @ORM\OneToMany(targetEntity="DelegateHistory", mappedBy="delegate")
+     */
+    private $history;
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -156,5 +161,21 @@ class Delegate
     public function setRank($rank)
     {
         $this->rank = $rank;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getHistory()
+    {
+        return $this->history;
+    }
+
+    /**
+     * @param mixed $history
+     */
+    public function setHistory($history)
+    {
+        $this->history = $history;
     }
 }

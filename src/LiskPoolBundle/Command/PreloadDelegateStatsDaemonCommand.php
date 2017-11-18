@@ -5,6 +5,7 @@ use Doctrine\Common\Collections\Criteria;
 use LiskPhpBundle\Service\Lisk;
 use LiskPoolBundle\Entity\Block;
 use LiskPoolBundle\Entity\Delegate;
+use LiskPoolBundle\Entity\DelegateHistory;
 use LiskPoolBundle\Entity\Payout;
 use LiskPoolBundle\Entity\Voter;
 use Symfony\Component\Console\Command\Command;
@@ -158,7 +159,8 @@ class PreloadDelegateStatsDaemonCommand extends ContainerAwareCommand
             "4miners.net" => [0, ["GDT"]],
             "hmachado" => [0, ["GDT"]],
             "carbonara" => [25, ["Lisk Elite"]],
-            "nimbus" => [50, []]
+            "nimbus" => [50, []],
+            "jan" => [80, []]
         ];
 
         $container = $this->getContainer();
@@ -184,6 +186,7 @@ class PreloadDelegateStatsDaemonCommand extends ContainerAwareCommand
                 $delegate->setSharingPercentage($delegateData[0]);
                 $delegate->setPools($delegateData[1]);
                 $delegate->setVotedBalance($delegateInfo["delegate"]["vote"]);
+
                 $em->persist($delegate);
                 $em->flush();
             }
