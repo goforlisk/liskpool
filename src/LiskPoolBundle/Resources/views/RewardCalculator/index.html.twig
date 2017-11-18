@@ -27,7 +27,7 @@
                     <div class="col-sm-10" style="padding-top: 7px;">
                         <div class="form-check form-check-inline">
                             <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" name="exclude_pools[]" value="Lisk Elite" {% if "Lisk Elite" in app.request.request.get('exclude_pools') or app.request.request.get('exclude_pools') is empty  %} checked {% endif %}> Lisk Elite
+                                <input class="form-check-input" type="checkbox" name="exclude_pools[]" value="Lisk Elite" {% if "Lisk Elite" in app.request.request.get('exclude_pools') %} checked {% endif %}> Lisk Elite
                             </label>
                         </div>
                         <div class="form-check form-check-inline">
