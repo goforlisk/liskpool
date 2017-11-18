@@ -32,9 +32,9 @@ class Delegate
     private $votedBalance = 0;
 
     /**
-     * @ORM\Column(type="integer", options={ "default": 0 })
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $sharingPercentage = 0;
+    private $sharingPercentage = NULL;
 
     /**
      * @ORM\Column(type="integer", options={ "default": 0 })

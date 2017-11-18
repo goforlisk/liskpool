@@ -368,7 +368,7 @@ class RewardCalculatorController extends Controller
                 $delegates = $em->getRepository("LiskPoolBundle:Delegate")->findBy([], ["sharingPercentage" => "DESC"]);
                 $poolsProcessed = [];
                 foreach($delegates as $delegate){
-                    if($delegate->getSharingPercentage() === 0){
+                    if($delegate->getSharingPercentage() === NULL){
                         continue;
                     }
                     if(count($idealForgeStats) === 101){
