@@ -62,65 +62,66 @@
                 <strong>Like this tool?</strong> Vote <strong>goforlisk</strong>! Sharing 85%, keeping 5% for funding promising projects, active developer and open sourcing all tools!
             </div>
 
-            {% if forgeStats is not empty %}
-                <h2 class="mt-5">Calculation results</h2>
-                <p>
-                    Below you will find an overview of your current voting situation. After optimizing your votes you may be able to earn more Lisk for your votes.
-                </p>
+            <h2 class="mt-5">Calculation results</h2>
+            <p>
+                Below you will find an overview of your current voting situation. After optimizing your votes you may be able to earn more Lisk for your votes.
+            </p>
 
-                <table class="table w-50 table-striped table-bordered">
-                    <tr>
-                        <td>
-                            Current situation
-                        </td>
-                        <td>
+            <table class="table w-50 table-striped table-bordered">
+                <tr>
+                    <td>
+                        Current situation
+                    </td>
+                    <td>
+                        {% if forgeStats is not empty %}
                             <strong>{{ totalRewards }}</strong> LISK/month
-                        </td>
-                    </tr>
-                    {#
-                    <tr>
-                        <td>
-                            Optimized situation
-                        </td>
-                        <td>
-                            <strong>{{ totalRewards }}</strong> LISK/month
-                        </td>
-                    </tr>
-                    #}
-                    <tr>
-                        <td>
-                            Ideal situation
-                        </td>
-                        <td>
-                            <strong>{{ idealRewards }}</strong> LISK/month
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Used votes
-                        </td>
-                        <td>
-                            <strong>{{ forgeStats | length }}/101</strong>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Your balance
-                        </td>
-                        <td>
-                            <strong>{{ ourBalance }}</strong> LISK
-                        </td>
-                    </tr>
-                </table>
+                        {% else %}
+                            You have to vote first!
+                        {% endif %}
+                    </td>
+                </tr>
+                {#
+                <tr>
+                    <td>
+                        Optimized situation
+                    </td>
+                    <td>
+                        <strong>{{ totalRewards }}</strong> LISK/month
+                    </td>
+                </tr>
+                #}
+                <tr>
+                    <td>
+                        Ideal situation
+                    </td>
+                    <td>
+                        <strong>{{ idealRewards }}</strong> LISK/month
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Used votes
+                    </td>
+                    <td>
+                        <strong>{{ forgeStats | length }}/101</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Your balance
+                    </td>
+                    <td>
+                        <strong>{{ ourBalance }}</strong> LISK
+                    </td>
+                </tr>
+            </table>
 
-                <p>
-                    Your forging rewards could improve from <strong>{{ totalRewards | round(2) }}LSK</strong> to <strong>{{ idealRewards | round(2) }}LSK</strong> by changing your votes. That is <strong>{{ ((idealRewards / totalRewards) * 100) | round(2) }}% of what you earn today</strong>!<br />
-                    Unfortunately not all delegates in the ideal situation are currently forging. Even as long as these delegates are not forging you would still earn <strong>{{ idealRewardsCurrentlyForging | round(2) }}LSK</strong> when following this voting advise anyway.
-                </p>
-            {% endif %}
+            <p>
+                Your forging rewards could improve from <strong>{% if forgeStats is empty %}0{% else %}{{ totalRewards | round(2) }}{% endif %}LSK</strong> to <strong>{{ idealRewards | round(2) }}LSK</strong> by changing your votes. {% if forgeStats is not empty %}That is <strong>{{ ((idealRewards / totalRewards) * 100) | round(2) }}% of what you earn today</strong>!{% endif %}<br />
+                Unfortunately not all delegates in the ideal situation are currently forging. Even as long as these delegates are not forging you would still earn <strong>{{ idealRewardsCurrentlyForging | round(2) }}LSK</strong> when following this voting advise anyway.
+            </p>
         </div>
 
-        {% if forgeStats is not empty %}
             <ul class="nav nav-tabs" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" href="#current" role="tab" data-toggle="tab">Current</a>
@@ -134,92 +135,97 @@
             <div class="tab-content">
                 <div class="tab-pane active" id="current" role="tabpanel">
                     <h3 class="mt-3">Current situation</h3>
-                    <table class="table table-striped table-bordered">
-                        <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Voted</th>
-                            <th scope="col">Delegate</th>
-                            <th scope="col">Rank</th>
-                            <th scope="col">Pool</th>
-                            <th scope="col">Vote share</th>
-                            <th scope="col">Monthly rewards</th>
-                            <th scope="col"></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for stat in forgeStats %}
+                    {% if forgeStats is not empty %}
+                        <table class="table table-striped table-bordered">
+                            <thead>
                             <tr>
-                                <td scope="row">{{ loop.index }}</td>
-                                <td scope="row">
-                                    <label class="custom-control custom-checkbox">
-                                        <input disabled {% if stat.delegate in votedDelegates %}checked{% endif %} type="checkbox" class="custom-control-input">
-                                        <span class="custom-control-indicator"></span>
-                                    </label>
-                                </td>
-                                <td scope="row">{{ stat.delegate }}</td>
-                                <td scope="row">{{ stat.pools | join(', ') }}</td>
-                                <td scope="row">{{ stat.rank }}</td>
-                                <td scope="row d-flex justify-content-between">
-                                    {% if stat.share != stat.share_real %}
-                                        <span class="text-danger">{{ (stat.share_real * 100) | round(4) }}%</span> / {{ (stat.share * 100) | round(4) }}%</span>
-                                    {% else %}
-                                        {% if stat.share > 0 %}
-                                            {{ (stat.share * 100) | round(4) }}%
-                                        {% else %}
-                                            {{ stat.share }}
-                                        {% endif %}
-                                    {% endif %}
-                                </td>
-                                <td scope="row">
-                                    {% if stat.rewards != stat.rewards_real %}
-                                        <span class="text-danger">{{  stat.rewards_real | round(4) }}</span> / {{ stat.rewards | round(4) }}
-                                    {% else %}
-                                        {{ stat.rewards | round(4) }}LSK
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    {% if stat.missing_votes is not empty %}
-                                        <i style="position: relative; top: 2px; font-size: 1.4em;" data-pt-title=".missing-votes-tooltip-{{ stat.delegate }}" data-pt-position="bottom-left" data-pt-interactive="true" data-pt-width="1000" data-pt-classes="download-tooltip" class="protip text-danger pull-right fa fa-exclamation-triangle" aria-hidden="true"></i>
-                                        <div class="missing-votes-tooltip-{{ stat.delegate }}" hidden>
-                                            <div class="markdown-body">
-                                                <h3>You are missing votes for this pool.</h3>
-                                                <hr />
-                                                {% if "Lisk Elite" in stat.pools or "Lisk Elite Sponsored" in stat.pools or "GDT" in stat.pools or "GDT Sponsored" in stat.pools %}
-                                                    <p>You will not receive a payout unless you have voted for all members listed below:</p>
-                                                {% elseif "SHW" in stat.pools %}
-                                                    <p>You are getting a 45% payout penalty for not voting all the members in this pool. If you want to remove this penalty, vote for:</p>
-                                                {% endif %}
-                                                <em>
-                                                    {{ stat.missing_votes | join(', ') }}
-                                                </em>
-                                            </div>
-                                        </div>
-                                    {% endif %}
-                                    {% if "Lisk Elite" in stat.pools or "Lisk Elite Sponsored" in stat.pools %}
-                                        <i style="position: relative; top: 0px; font-size: 1.6em;" data-pt-title=".elite-required-verification-{{ stat.delegate }}" data-pt-position="bottom-left" data-pt-interactive="true" data-pt-width="1000" data-pt-classes="info-tooltip download-tooltip--css" class="protip text-info pull-right fa fa-info-circle" aria-hidden="true"></i>
-                                        <div class="elite-required-verification-{{ stat.delegate }}" hidden>
-                                            <div class="markdown-body">
-                                                <h3>This pool requires verification</h3>
-                                                <hr />
-                                                <p>You will not receive a payout until you have verified your address. <a href="https://liskelite.com/voter" target="_blank">Verify your address on LiskElite.com</a></p>
-                                            </div>
-                                        </div>
-                                    {% endif %}
-                                </td>
+                                <th scope="col">#</th>
+                                <th scope="col">Voted</th>
+                                <th scope="col">Delegate</th>
+                                <th scope="col">Rank</th>
+                                <th scope="col">Pool</th>
+                                <th scope="col">Vote share</th>
+                                <th scope="col">Monthly rewards</th>
+                                <th scope="col"></th>
                             </tr>
-                        {% endfor %}
-                        </tbody>
-                        <tfoot style="border-top: 2px solid black;">
-                        <tr>
-                            <td colspan="5"><strong>Total share per month</strong></td>
-                            <td><strong>{{ totalRewards }} LSK</strong></td>
-                        </tr>
-                        </tfoot>
-                    </table>
+                            </thead>
+                            <tbody>
+                            {% for stat in forgeStats %}
+                                <tr>
+                                    <td scope="row">{{ loop.index }}</td>
+                                    <td scope="row">
+                                        <label class="custom-control custom-checkbox">
+                                            <input disabled {% if stat.delegate in votedDelegates %}checked{% endif %} type="checkbox" class="custom-control-input">
+                                            <span class="custom-control-indicator"></span>
+                                        </label>
+                                    </td>
+                                    <td scope="row">{{ stat.delegate }}</td>
+                                    <td scope="row">{{ stat.pools | join(', ') }}</td>
+                                    <td scope="row">{{ stat.rank }}</td>
+                                    <td scope="row d-flex justify-content-between">
+                                        {% if stat.share != stat.share_real %}
+                                            <span class="text-danger">{{ (stat.share_real * 100) | round(4) }}%</span> / {{ (stat.share * 100) | round(4) }}%</span>
+                                        {% else %}
+                                            {% if stat.share > 0 %}
+                                                {{ (stat.share * 100) | round(4) }}%
+                                            {% else %}
+                                                {{ stat.share }}
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                    <td scope="row">
+                                        {% if stat.rewards != stat.rewards_real %}
+                                            <span class="text-danger">{{  stat.rewards_real | round(4) }}</span> / {{ stat.rewards | round(4) }}
+                                        {% else %}
+                                            {{ stat.rewards | round(4) }}LSK
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if stat.missing_votes is not empty %}
+                                            <i style="position: relative; top: 2px; font-size: 1.4em;" data-pt-title=".missing-votes-tooltip-{{ stat.delegate }}" data-pt-position="bottom-left" data-pt-interactive="true" data-pt-width="1000" data-pt-classes="download-tooltip" class="protip text-danger pull-right fa fa-exclamation-triangle" aria-hidden="true"></i>
+                                            <div class="missing-votes-tooltip-{{ stat.delegate }}" hidden>
+                                                <div class="markdown-body">
+                                                    <h3>You are missing votes for this pool.</h3>
+                                                    <hr />
+                                                    {% if "Lisk Elite" in stat.pools or "Lisk Elite Sponsored" in stat.pools or "GDT" in stat.pools or "GDT Sponsored" in stat.pools %}
+                                                        <p>You will not receive a payout unless you have voted for all members listed below:</p>
+                                                    {% elseif "SHW" in stat.pools %}
+                                                        <p>You are getting a 45% payout penalty for not voting all the members in this pool. If you want to remove this penalty, vote for:</p>
+                                                    {% endif %}
+                                                    <em>
+                                                        {{ stat.missing_votes | join(', ') }}
+                                                    </em>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                        {% if "Lisk Elite" in stat.pools or "Lisk Elite Sponsored" in stat.pools %}
+                                            <i style="position: relative; top: 0px; font-size: 1.6em;" data-pt-title=".elite-required-verification-{{ stat.delegate }}" data-pt-position="bottom-left" data-pt-interactive="true" data-pt-width="1000" data-pt-classes="info-tooltip download-tooltip--css" class="protip text-info pull-right fa fa-info-circle" aria-hidden="true"></i>
+                                            <div class="elite-required-verification-{{ stat.delegate }}" hidden>
+                                                <div class="markdown-body">
+                                                    <h3>This pool requires verification</h3>
+                                                    <hr />
+                                                    <p>You will not receive a payout until you have verified your address. <a href="https://liskelite.com/voter" target="_blank">Verify your address on LiskElite.com</a></p>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                            <tfoot style="border-top: 2px solid black;">
+                            <tr>
+                                <td colspan="5"><strong>Total share per month</strong></td>
+                                <td><strong>{{ totalRewards }} LSK</strong></td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    {% else %}
+                        <p>
+                            You have no votes! Hop over the the "Ideal situation" tab to get started with voting!
+                        </p>
+                    {% endif %}
                 </div>
                 <div class="tab-pane" id="ideal" role="tabpanel">
-
                     {% if idealForgeStats is not empty %}
                         <h3 class="mt-5">Ideal situation</h3>
                         <p>
@@ -320,7 +326,6 @@
                     {% endif %}
                 </div>
             </div>
-        {% endif %}
 
             {#
             {% if optimizedForgeStats is not empty %}
