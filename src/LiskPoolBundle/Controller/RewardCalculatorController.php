@@ -11,7 +11,7 @@ use LiskPhpBundle\Service\Lisk;
 
 class RewardCalculatorController extends Controller
 {
-    private $blockRewardPerMonth = ((86400 / 10 / 101) * 5 * 365) / 12;
+    private $blockRewardPerMonth = ((86400 / 10 / 101) * 4 * 365) / 12;
 
     /**
      * @Route("/rewards", name="rewards")
