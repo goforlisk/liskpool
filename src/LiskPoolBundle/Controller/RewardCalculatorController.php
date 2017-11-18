@@ -40,11 +40,13 @@ class RewardCalculatorController extends Controller
             "rounds" => []
         ];
 
+        $hasValidAddress = false;
         $address = trim($request->request->get("address"));
         $excludedPools = $request->request->get("exclude_pools");
         if(!empty($address)){
             $ourBalance = $lisk->getAccountBalance($address);
             if($ourBalance["success"] === TRUE) {
+                $hasValidAddress = true;
                 $liskBalance = $ourBalance["balance"];
 
                 // Calculate the current situation
@@ -610,7 +612,8 @@ class RewardCalculatorController extends Controller
             "idealRewardsCurrentlyForging" => $idealRewardsCurrentlyForging,
             "ourBalance" => $liskBalance / 100000000,
             "votedDelegates" => $votedDelegateUsernames,
-            "idealVotes" => $idealVotes
+            "idealVotes" => $idealVotes,
+            "hasValidAddress" => $hasValidAddress
         ]);
     }
 }
