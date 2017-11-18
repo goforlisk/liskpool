@@ -375,10 +375,10 @@ class RewardCalculatorController extends Controller
                         break;
                     }
 
-                    if((in_array("Lisk Elite", $delegate->getPools()) || in_array("Lisk Elite Sponsored", $delegate->getPools())) && in_array("Lisk Elite", $excludedPools)){
+                    if((in_array("Lisk Elite", $delegate->getPools()) || in_array("Lisk Elite", $delegate->getPools())) && in_array("Lisk Elite", $excludedPools)){
                         continue;
                     }
-                    if((in_array("GDT", $delegate->getPools()) || in_array("GDT Sponsored", $delegate->getPools())) && in_array("GDT", $excludedPools)){
+                    if((in_array("GDT", $delegate->getPools()) || in_array("GDT", $delegate->getPools())) && in_array("GDT", $excludedPools)){
                         continue;
                     }
                     if(in_array("SHW", $delegate->getPools()) && in_array("SHW", $excludedPools)){
