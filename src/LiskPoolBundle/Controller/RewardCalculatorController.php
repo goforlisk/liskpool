@@ -42,7 +42,6 @@ class RewardCalculatorController extends Controller
 
         $address = trim($request->request->get("address"));
         $excludedPools = $request->request->get("exclude_pools");
-        dump($excludedPools);
         if(!empty($address)){
             $ourBalance = $lisk->getAccountBalance($address);
             if($ourBalance["success"] === TRUE) {
